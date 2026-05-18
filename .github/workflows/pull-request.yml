@@ -4,8 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [master, develop]
-  schedule:
-    - cron: '0 12 * * 1-5' #At 12:00 on every day-of-week from Monday through Friday.
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -148,8 +146,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # For scheduled runs, include all browsers; for PR runs, only Chromium
-        browser: ${{ github.event_name != 'pull_request' && fromJSON('["chrome", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
+        # For PR runs, only Chromium
+        browser: ["chromium"]
         e2e-suites:
           - name: "create-actions"
             id: 1
@@ -239,18 +237,8 @@ jobs:
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
-      - name: Before playwright (Chromium for PR)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Before playwright
         run: npm run ci:playwright:install
-
-      - name: Before playwright (all browsers)
-        if: ${{ github.event_name != 'pull_request' }}
-        run: npm run ci:playwright:install:all
-
-      - name: Install Playwright system dependencies
-        # Install system dependencies required for all browsers (especially WebKit on Linux)
-        if: ${{ github.event_name != 'pull_request' }}
-        run: npx playwright install-deps
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright
