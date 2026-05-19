@@ -44,7 +44,7 @@ export class ViewerComponent extends BaseComponent {
   public thumbnailsCloseButton = this.getChild('[data-automation-id="adf-thumbnails-close"]');
   public viewerPage = this.getChild('[data-automation-id="adf-page-selector"]');
   public viewerMedia = this.getChild('adf-media-player');
-  public viewerSpinner = this.getChild('.adf-viewer-render__loading-screen');
+  public viewerSpinner = this.getChild('.adf-viewer-render__loading-screen__spinner');
   public zoomInButton = this.getChild('#viewer-zoom-in-button');
   public zoomOutButton = this.getChild('#viewer-zoom-out-button');
   public zoomScale = this.getChild('[data-automation-id="adf-page-scale"]');
@@ -75,13 +75,9 @@ export class ViewerComponent extends BaseComponent {
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
   }
 
-  async waitForViewerLoaderToFinish(customTimeout?: number): Promise<void> {
-    try {
-      await this.viewerSpinner.waitFor({ state: 'hidden', timeout: customTimeout || timeouts.extraLarge });
-    } catch (error) {
-      this.logger.log('waitForViewerLoaderToFinish: Timeout reached while waiting for viewer loader to finish.');
-      throw error;
-    }
+  async waitForViewerLoaderToFinish(): Promise<void> {
+    await this.viewerSpinner.waitFor({ state: 'attached', timeout: timeouts.medium }).catch(() => {});
+    await this.viewerSpinner.waitFor({ state: 'detached', timeout: timeouts.fortySeconds }).catch(() => {});
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {
@@ -105,7 +101,7 @@ export class ViewerComponent extends BaseComponent {
   async waitForZoomPercentageToDisplay(): Promise<void> {
     await this.zoomScale.waitFor({ state: 'visible', timeout: timeouts.normal });
     const startTime = Date.now();
-    let textContent: string;
+    let textContent = '';
 
     while (Date.now() - startTime <= timeouts.medium) {
       textContent = await this.zoomScale.innerText();
@@ -123,12 +119,24 @@ export class ViewerComponent extends BaseComponent {
   async getFileTitle(): Promise<string> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     await this.waitForViewerLoaderToFinish();
-    return this.fileTitleButtonLocator.textContent();
+    const title = await this.fileTitleButtonLocator.textContent();
+    if (!title) {
+      const errorMessage = 'File title is not displayed in the viewer';
+      this.logger.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+    return title;
   }
 
   async getCloseButtonTooltip(): Promise<string> {
     await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    return this.closeButtonLocator.getAttribute('title');
+    const tooltip = await this.closeButtonLocator.getAttribute('title');
+    if (!tooltip) {
+      const errorMessage = 'Close button tooltip is not available';
+      this.logger.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+    return tooltip;
   }
 
   async verifyViewerPrimaryActions(expectedToolbarPrimary: string[]): Promise<void> {
