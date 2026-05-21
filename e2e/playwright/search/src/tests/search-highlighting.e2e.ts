@@ -52,7 +52,7 @@ test.describe('Search Highlighting', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
       await nodesApi.createFile(fileNameHighlight, '-my-');
-      await nodesApi.createFile(fileDescriptionHighlight, '-my-', null, fileDescription);
+      await nodesApi.createFile(fileDescriptionHighlight, '-my-', undefined, fileDescription);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileContentHighlight);
 
       await fileActionsApi.waitForNodesSearchHighlight(fileContentHighlight, { expect: 1 });
@@ -67,13 +67,11 @@ test.describe('Search Highlighting', () => {
 
   test('[XAT-17119] Matching phrases should be highlighted in the file name for search results', async ({ searchPage }) => {
     await searchPage.searchWithin(fileNameHighlight, 'files');
-    await searchPage.dataTable.spinnerWaitForReload();
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(true);
   });
 
   test('[XAT-17120] Matching phrases should be highlighted in the file description for search results', async ({ searchPage }) => {
     await searchPage.searchWithin(fileDescription, 'files');
-    await searchPage.dataTable.spinnerWaitForReload();
     expect(await searchPage.dataTable.hasHighlightedText('description')).toBe(true);
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });
@@ -81,7 +79,6 @@ test.describe('Search Highlighting', () => {
   test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage, personalFiles }) => {
     await personalFiles.navigate();
     await searchPage.searchWithin(fileContent, 'files');
-    await searchPage.dataTable.spinnerWaitForReload();
     expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });
