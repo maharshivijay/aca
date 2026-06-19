@@ -28,6 +28,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
+  standalone: true,
   imports: [LoginComponent, TranslatePipe],
   templateUrl: './app-login.component.html',
   styles: [

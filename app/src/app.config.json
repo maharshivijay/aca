@@ -33,7 +33,7 @@
   },
   "locale": "en",
   "application": {
-    "name": "Workspace",
+    "name": "Workspace - IDRMS",
     "version": "7.4.1",
     "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"

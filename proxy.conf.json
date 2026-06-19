@@ -1,0 +1,8 @@
+{
+  "/alfresco": {
+    "target": "http://10.20.20.90:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

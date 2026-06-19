@@ -320,7 +320,8 @@
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
             "CHANGE_ASPECT": "Edit Aspects",
             "ADD_ASPECTS": "Add Aspects",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Information",
+            "ENGINEERING_APPROVE": "Engineering Approve"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -387,7 +388,8 @@
                     }
                 },
                 "DELETE_LIBRARY_FAILED": "Cannot delete the library",
-                "LEAVE_LIBRARY_FAILED": "Cannot leave this library"
+                "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
+                "ENGINEERING_APPROVAL_FAILED": "Failed to approve document"
             },
             "UPLOAD": {
                 "ERROR": {
@@ -445,7 +447,8 @@
                 "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
                 "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
                 "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite",
+                "ENGINEERING_APPROVAL_SUCCESS": "Document approved successfully"
             }
         },
         "CONTENT_METADATA": {

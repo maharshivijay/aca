@@ -49,7 +49,8 @@ export enum NodeActionTypes {
   RemoveFavorite = 'REMOVE_FAVORITE',
   ChangeAspects = 'ASPECT_LIST',
   ExpandInfoDrawer = 'EXPAND_INFO_DRAWER',
-  ManageRules = 'MANAGE_RULES'
+  ManageRules = 'MANAGE_RULES',
+  EngineeringApprove = 'ENGINEERING_APPROVE',
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -223,4 +224,10 @@ export class NodeInformationAction implements Action {
   readonly type = NodeActionTypes.NodeInformation;
 
   constructor(public payload: NodeEntry) {}
+}
+
+export class EngineeringApproveAction implements Action {
+  readonly type = NodeActionTypes.EngineeringApprove;
+
+  constructor(public payload?: NodeEntry, public configuration?: any) {}
 }

@@ -189,6 +189,7 @@
                 "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
                 "route": "recent-files"
               },
+
               {
                 "id": "app.navbar.repositoryView",
                 "order": 500,
@@ -428,6 +429,22 @@
             "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "app.selection.canDownload"
+          ]
+        }
+      },
+      {
+        "id": "app.context.menu.engineering.approve",
+        "order": 201,
+        "title": "Engineering Approve",
+        "icon": "get_app",
+        "actions": {
+          "click": "ENGINEERING_APPROVE"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "app.selection.file"
           ]
         }
       },
@@ -841,6 +858,22 @@
             "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "app.selection.canDownload"
+          ]
+        }
+      },
+      {
+        "id": "app.context.menu.engineering.approve",
+        "order": 201,
+        "title": "APP.ACTIONS.ENGINEERING_APPROVE",
+        "icon": "check_circle",
+        "actions": {
+          "click": "ENGINEERING_APPROVE"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "app.selection.file"
           ]
         }
       },
@@ -2494,7 +2527,7 @@
         ]
       }
     ],
-    "documentList": {
+"documentList": {
       "files": [
         {
           "id": "app.files.thumbnail",

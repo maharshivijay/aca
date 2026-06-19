@@ -52,9 +52,11 @@ import {
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction,
-  NodeInformationAction
+  NodeInformationAction,
+  EngineeringApproveAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
+import { EngineeringApprovalService } from '../../services/engineering-approval.service';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -65,6 +67,7 @@ export class NodeEffects {
   private readonly actions$ = inject(Actions);
   private readonly router = inject(Router);
   private readonly contentService = inject(ContentManagementService);
+  private readonly approvalService = inject(EngineeringApprovalService);
   private readonly renditionViewer = inject(RenditionService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly sanitizer = inject(DomSanitizer);
@@ -476,6 +479,29 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   this.contentService.showNodeInformation(selection.nodes[0]);
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  engineeringApprove$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<EngineeringApproveAction>(NodeActionTypes.EngineeringApprove),
+        map((action) => {
+          if (action.payload) {
+            this.approvalService.approve(action.payload.entry.id).subscribe(() => {});
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                const node = selection?.file || (selection?.nodes?.length ? selection.nodes[0] : null);
+                if (node?.entry?.id) {
+                  this.approvalService.approve(node.entry.id).subscribe(() => {});
                 }
               });
           }

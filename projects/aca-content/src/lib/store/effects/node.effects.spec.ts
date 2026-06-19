@@ -51,7 +51,8 @@ import {
   ShowLoaderAction,
   UndoDeleteNodesAction,
   UnlockWriteAction,
-  UnshareNodesAction
+  UnshareNodesAction,
+  EngineeringApproveAction
 } from '@alfresco/aca-shared/store';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
@@ -60,6 +61,7 @@ import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NodeEntry, UserInfo } from '@alfresco/js-api';
+import { EngineeringApprovalService } from '../../services/engineering-approval.service';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
@@ -67,6 +69,7 @@ describe('NodeEffects', () => {
   let renditionViewerService: RenditionService;
   let viewerEffects: ViewerEffects;
   let router: Router;
+  let approvalService: EngineeringApprovalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,7 +77,13 @@ describe('NodeEffects', () => {
       providers: [
         provideEffects([NodeEffects, ViewerEffects, RouterEffects]),
         RenditionService,
-        { provide: ActivatedRoute, useValue: { queryParams: of({ location: 'test-page' }) } }
+        { provide: ActivatedRoute, useValue: { queryParams: of({ location: 'test-page' }) } },
+        {
+          provide: EngineeringApprovalService,
+          useValue: {
+            approve: () => of(null)
+          }
+        }
       ]
     });
 
@@ -83,6 +92,7 @@ describe('NodeEffects', () => {
     renditionViewerService = TestBed.inject(RenditionService);
     viewerEffects = TestBed.inject(ViewerEffects);
     router = TestBed.inject(Router);
+    approvalService = TestBed.inject(EngineeringApprovalService);
   });
 
   describe('shareNode$', () => {
@@ -614,5 +624,38 @@ describe('NodeEffects', () => {
 
       expect(contentService.showNodeInformation).toHaveBeenCalledWith(node);
     }));
+  });
+
+  describe('engineeringApprove$', () => {
+    it('should approve node from payload', () => {
+      spyOn(approvalService, 'approve').and.returnValue(of(null));
+
+      const node: any = {
+        entry: { id: 'test-node-id' }
+      };
+      store.dispatch(new EngineeringApproveAction(node));
+
+      expect(approvalService.approve).toHaveBeenCalledWith('test-node-id');
+    });
+
+    it('should approve node from active selection', fakeAsync(() => {
+      spyOn(approvalService, 'approve').and.returnValue(of(null));
+
+      const node: any = { entry: { id: 'test-node-id', isFile: true } };
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new EngineeringApproveAction(null));
+      expect(approvalService.approve).toHaveBeenCalledWith('test-node-id');
+    }));
+
+    it('should do nothing if invoking approve with no data', () => {
+      spyOn(approvalService, 'approve').and.returnValue(of(null));
+
+      store.dispatch(new EngineeringApproveAction(null));
+
+      expect(approvalService.approve).not.toHaveBeenCalled();
+    });
   });
 });

@@ -49,7 +49,7 @@ export class OpenInAppComponent {
   public appStoreUrl: string;
   public window: Window & typeof globalThis = window;
 
-  constructor() {
+   constructor() {
     const data = this.data;
 
     if (data) {
