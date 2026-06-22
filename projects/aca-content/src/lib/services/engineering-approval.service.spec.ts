@@ -79,7 +79,8 @@ describe('EngineeringApprovalService', () => {
             'cm:description': 'Approved'
           }
         }
-      };
+      } as any;
+
 
       const updateNodeSpy = spyOn(NodesApi.prototype, 'updateNode').and.returnValue(Promise.resolve(mockNodeEntry) as any);
       const nodeUpdatedSpy = spyOn(nodesApiService.nodeUpdated, 'next').and.callThrough();

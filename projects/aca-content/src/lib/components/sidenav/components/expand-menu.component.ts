@@ -31,9 +31,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActiveLinkDirective } from '../directives/active-link.directive';
 import { ActionDirective } from '../directives/action.directive';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { SidenavTreeComponent } from './sidenav-tree.component';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, IconComponent, MatButtonModule, ActiveLinkDirective, ActionDirective, MatExpansionModule],
+  imports: [CommonModule, TranslatePipe, IconComponent, MatButtonModule, ActiveLinkDirective, ActionDirective, MatExpansionModule, SidenavTreeComponent],
   selector: 'app-expand-menu',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './expand-menu.component.html',

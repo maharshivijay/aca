@@ -25,6 +25,38 @@
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.15px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .adf-breadcrumb-item-chevron {
+      font-size: 0 !important;
+      width: auto !important;
+      height: auto !important;
+      margin-top: 0 !important;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+
+      svg {
+        display: none !important;
+      }
+
+      &::before {
+        content: '>';
+        font-size: 16px !important;
+        font-family: sans-serif !important;
+        color: var(--adf-theme-foreground-text-color-054, #757575);
+        margin: 0 8px;
+        font-weight: normal;
+        vertical-align: middle;
+      }
+    }
+
+    adf-breadcrumb {
+      flex: 1;
+      min-width: 0;
     }
 
     .aca-toolbar-action {

@@ -1,0 +1,93 @@
+.sidenav-tree-container {
+  padding-left: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: var(--theme-font-family, Roboto, sans-serif);
+}
+
+.sidenav-tree-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidenav-tree-node {
+  margin: 2px 0;
+}
+
+.sidenav-tree-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--theme-sidenav-text-color, rgba(0, 0, 0, 0.87));
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: var(--adf-theme-background-hover-color, rgba(0, 0, 0, 0.04));
+    color: var(--theme-sidenav-hovered-text-color, #000);
+  }
+
+  &--active {
+    background-color: var(--theme-selected-background-color, rgba(33, 150, 243, 0.08)) !important;
+    color: var(--adf-sidenav-active-text-color, #2196f3) !important;
+    font-weight: 500;
+
+    .sidenav-tree-icon {
+      color: var(--adf-sidenav-active-text-color, #2196f3) !important;
+    }
+  }
+}
+
+.sidenav-tree-expand-btn {
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px !important;
+  margin-right: 4px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  .mat-icon {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    color: var(--theme-text-light-color, rgba(0, 0, 0, 0.54));
+  }
+}
+
+.sidenav-tree-spacer {
+  width: 28px;
+  display: inline-block;
+}
+
+.sidenav-tree-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  margin-right: 8px;
+  color: var(--theme-text-light-color, rgba(0, 0, 0, 0.54));
+}
+
+.sidenav-tree-label {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.sidenav-tree-spinner {
+  margin-left: 8px;
+}
+
+.sidenav-tree-children {
+  padding-left: 16px;
+  border-left: 1px dashed rgba(0, 0, 0, 0.12);
+  margin-left: 12px;
+}

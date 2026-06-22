@@ -39,21 +39,24 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ul class="aca-expansion-panel-body" [attr.aria-label]="item.title | translate">
-      <li *ngFor="let child of item.children; trackBy: trackById" class="aca-expansion-panel-item">
-        <button
-          acaActiveLink="aca-action-button--active"
-          [action]="child"
-          (actionClicked)="actionClicked.emit($event)"
-          [attr.aria-label]="child.title | translate"
-          [id]="child.id"
-          [attr.data-automation-id]="child.id"
-          [attr.title]="child.description | translate"
-          mat-button
-          class="aca-action-button aca-full-width"
-        >
-          <adf-icon *ngIf="child.icon" [value]="child.icon" />
-          <span class="aca-action-button__label">{{ child.title | translate }}</span>
-        </button>
+      <li *ngFor="let child of item.children; trackBy: trackById">
+        <div class="aca-expansion-panel-item">
+          <button
+            acaActiveLink="aca-action-button--active"
+            [action]="child"
+            (actionClicked)="actionClicked.emit($event)"
+            [attr.aria-label]="child.title | translate"
+            [id]="child.id"
+            [attr.data-automation-id]="child.id"
+            [attr.title]="child.description | translate"
+            mat-button
+            class="aca-action-button aca-full-width"
+          >
+            <adf-icon *ngIf="child.icon" [value]="child.icon" />
+            <span class="aca-action-button__label">{{ child.title | translate }}</span>
+          </button>
+        </div>
+        <app-sidenav-tree *ngIf="child.id === 'app.navbar.libraries.files'" />
       </li>
     </ul>
   </mat-expansion-panel>

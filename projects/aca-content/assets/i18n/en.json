@@ -114,6 +114,13 @@
                     "TITLE": "Permissions"
                 }
             },
+            "MY_HOME": {
+                "TITLE": "My Home",
+                "SIDENAV_LINK": {
+                    "LABEL": "My Home",
+                    "TOOLTIP": "View your My Home"
+                }
+            },
             "REPOSITORY_VIEW": {
                 "TITLE": "Repository",
                 "SIDENAV_LINK": {

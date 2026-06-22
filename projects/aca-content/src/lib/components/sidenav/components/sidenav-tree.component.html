@@ -1,0 +1,43 @@
+<ng-template #nodeTemplate let-nodes>
+  <ul class="sidenav-tree-list">
+    <li *ngFor="let node of nodes" class="sidenav-tree-node">
+      <div 
+        class="sidenav-tree-item" 
+        [class.sidenav-tree-item--active]="activeNodeId === node.id || (node.isLibrary && activeNodeId === node.docLibId)"
+        (click)="selectNode(node)"
+      >
+        <button 
+          *ngIf="node.isLibrary || node.isFolder"
+          mat-icon-button
+          class="sidenav-tree-expand-btn"
+          (click)="toggleExpand(node, $event)"
+        >
+          <mat-icon>{{ node.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+        </button>
+        <span *ngIf="!node.isLibrary && !node.isFolder" class="sidenav-tree-spacer"></span>
+        
+        <mat-icon class="sidenav-tree-icon">
+          {{ node.isLibrary ? 'library_books' : 'folder' }}
+        </mat-icon>
+        
+        <span class="sidenav-tree-label" [attr.title]="node.name">
+          {{ node.name }}
+        </span>
+        
+        <mat-spinner 
+          *ngIf="node.isLoading" 
+          [diameter]="16" 
+          class="sidenav-tree-spinner"
+        ></mat-spinner>
+      </div>
+      
+      <div *ngIf="node.isExpanded && node.children && node.children.length" class="sidenav-tree-children">
+        <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node.children }"></ng-container>
+      </div>
+    </li>
+  </ul>
+</ng-template>
+
+<div class="sidenav-tree-container">
+  <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: treeNodes }"></ng-container>
+</div>

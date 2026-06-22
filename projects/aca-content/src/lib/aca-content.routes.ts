@@ -44,6 +44,8 @@ import { SearchAiResultsComponent } from './components/knowledge-retrieval/searc
 import { SavedSearchesSmartListComponent } from './components/search/search-save/list/smart-list/saved-searches-smart-list.component';
 import { LibraryListComponent } from './components/library-list/library-list.component';
 import { RepositoryViewComponent } from './components/repository-view/repository-view.component';
+import { MyHomeComponent } from './components/my-home/my-home.component';
+
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -168,6 +170,35 @@ export const CONTENT_LAYOUT_ROUTES: Route[] = [
             }
           },
           ...createViewRoutes('personal-files')
+        ]
+      },
+      {
+        path: 'myhome',
+        children: [
+          {
+            path: '',
+            component: MyHomeComponent,
+            data: {
+              sortingPreferenceKey: 'myhome',
+              title: 'APP.BROWSE.MY_HOME.TITLE',
+              defaultNodeId: '-my-'
+            }
+          },
+          ...createViewRoutes('myhome')
+        ]
+      },
+      {
+        path: 'myhome/:folderId',
+        children: [
+          {
+            path: '',
+            component: MyHomeComponent,
+            data: {
+              title: 'APP.BROWSE.MY_HOME.TITLE',
+              sortingPreferenceKey: 'myhome'
+            }
+          },
+          ...createViewRoutes('myhome')
         ]
       },
       {

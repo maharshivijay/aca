@@ -162,6 +162,13 @@
                 "route": "personal-files"
               },
               {
+                "id": "app.navbar.myHome",
+                "order": 150,
+                "title": "APP.BROWSE.MY_HOME.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.MY_HOME.SIDENAV_LINK.TOOLTIP",
+                "route": "myhome"
+              },
+              {
                 "id": "app.navbar.libraries.files",
                 "order": 200,
                 "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
