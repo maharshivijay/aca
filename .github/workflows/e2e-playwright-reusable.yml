@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -121,10 +121,10 @@ jobs:
             id: 20
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@f95467b62527ce087c9a1b7e55c467061cf827a0 # v17.6.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ed80b0eef8e432f517ea1aa51d8a82637c1d1cc1 # v18.12.0
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -140,7 +140,7 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@f95467b62527ce087c9a1b7e55c467061cf827a0 # v17.6.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@ed80b0eef8e432f517ea1aa51d8a82637c1d1cc1 # v18.12.0
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}"
