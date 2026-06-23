@@ -29,7 +29,8 @@ import { Node } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { AuthenticationService, NoopTranslateModule } from '@alfresco/adf-core';
 import { ExternalNodePermissionCommentsTabService } from '@alfresco/aca-content';
-import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, AlfrescoApiServiceMock, NodeCommentsService, UploadService } from '@alfresco/adf-content-services';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('CommentsTabComponent', () => {
   let component: CommentsTabComponent;
@@ -44,7 +45,28 @@ describe('CommentsTabComponent', () => {
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: ExternalNodePermissionCommentsTabService, useValue: { canAddComments: () => canAddComment } },
-        { provide: AuthenticationService, useValue: { onLogout: of({}) } }
+        { provide: AuthenticationService, useValue: { onLogout: of({}), getUsername: () => 'test-user' } },
+        {
+          provide: NodeCommentsService,
+          useValue: {
+            get: () => of([]),
+            add: () => of({}),
+            getUserImage: () => '',
+            commentsApi: {
+              deleteComment: () => Promise.resolve(),
+              updateComment: () => Promise.resolve({ entry: {} })
+            }
+          }
+        },
+        {
+          provide: UploadService,
+          useValue: {
+            uploadApi: {
+              uploadFile: () => Promise.resolve({ entry: { id: 'attached-node-id', name: 'attached-file.txt' } })
+            }
+          }
+        },
+        provideMockStore({})
       ]
     });
 

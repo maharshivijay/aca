@@ -35,7 +35,6 @@ describe('SidenavTreeComponent', () => {
   let component: SidenavTreeComponent;
   let fixture: ComponentFixture<SidenavTreeComponent>;
   let router: Router;
-  let sitesService: SitesService;
   let contentApi: ContentApiService;
 
   const mockSitesList: SitePaging = {
@@ -115,7 +114,6 @@ describe('SidenavTreeComponent', () => {
     fixture = TestBed.createComponent(SidenavTreeComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    sitesService = TestBed.inject(SitesService);
     contentApi = TestBed.inject(ContentApiService);
 
     spyOn(router, 'navigate');

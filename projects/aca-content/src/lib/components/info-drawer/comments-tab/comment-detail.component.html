@@ -1,0 +1,85 @@
+<div class="comment-detail-container">
+  <!-- Author Avatar -->
+  <div class="comment-avatar-container">
+    <div *ngIf="!comment.hasAvatarPicture" class="comment-avatar-fallback">{{ comment.userInitials }}</div>
+    <img *ngIf="comment.hasAvatarPicture" class="comment-avatar-image"
+         [alt]="'COMMENTS.PROFILE_IMAGE' | translate"
+         [src]="getUserImage(comment.createdBy.id.toString())" />
+  </div>
+
+  <!-- Comment Content Area -->
+  <div class="comment-body-container">
+    <!-- Inline Edit Mode -->
+    <div *ngIf="isEditing; else displayMode" class="comment-edit-workspace">
+      <mat-form-field class="comment-edit-textarea-field" appearance="fill">
+        <textarea matInput [formControl]="editControl" rows="2"></textarea>
+      </mat-form-field>
+      
+      <!-- Current Attachment Chip in Edit Mode -->
+      <div *ngIf="currentAttachment && !attachmentRemoved" class="comment-attachment-chip">
+        <mat-icon class="attachment-chip-icon">attachment</mat-icon>
+        <span class="attachment-chip-name" [title]="currentAttachment.name">{{ currentAttachment.name }}</span>
+        <button mat-icon-button class="attachment-chip-remove" (click)="removeCurrentAttachment()" type="button" title="Remove attachment">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- New Attachment Chip in Edit Mode -->
+      <div *ngIf="selectedFile" class="comment-attachment-chip">
+        <mat-icon class="attachment-chip-icon">insert_drive_file</mat-icon>
+        <span class="attachment-chip-name" [title]="selectedFile.name">{{ selectedFile.name }}</span>
+        <button mat-icon-button class="attachment-chip-remove" (click)="removeSelectedFile()" type="button" title="Remove new attachment">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Actions -->
+      <div class="comment-edit-actions">
+        <input type="file" #editFileInput (change)="onFileSelected($event)" style="display: none">
+        <button mat-icon-button (click)="editFileInput.click()" type="button" title="Attach new file" [disabled]="currentAttachment && !attachmentRemoved">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+        <div class="comment-edit-buttons">
+          <button mat-button (click)="cancelEdit()">Cancel</button>
+          <button mat-flat-button color="primary" [disabled]="!canSave()" (click)="saveEdit()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Display Mode -->
+    <ng-template #displayMode>
+      <div class="comment-header">
+        <div class="comment-author-name">{{ comment.userDisplayName }}</div>
+        
+        <!-- Author Actions Menu -->
+        <div *ngIf="isAuthor()" class="comment-menu">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Comment actions">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="startEdit()">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteComment()">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <!-- Comment Message -->
+      <div class="comment-message">{{ comment.message }}</div>
+
+      <!-- Attached File Chip Link -->
+      <div *ngIf="comment.attachment" class="comment-attachment-chip clickable" (click)="viewAttachment(comment.attachment.id)">
+        <mat-icon class="attachment-chip-icon">attachment</mat-icon>
+        <span class="attachment-chip-name" title="Click to view file">{{ comment.attachment.name }}</span>
+      </div>
+
+      <!-- Timestamp -->
+      <div class="comment-time">{{ comment.created | adfTimeAgo }}</div>
+    </ng-template>
+  </div>
+</div>

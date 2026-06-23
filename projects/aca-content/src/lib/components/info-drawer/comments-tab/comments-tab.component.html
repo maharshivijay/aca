@@ -1,0 +1,69 @@
+<div class="adf-comments-tab-container">
+  <div class="adf-comments-container">
+    <div id="comment-header" class="adf-comments-header adf-comments-divider">
+      {{ 'COMMENTS.HEADER' | translate: { count: comments?.length } }}
+    </div>
+
+    <!-- Comment Input Form (Fixed at the top) -->
+    <div *ngIf="canUpdateNode" class="adf-comments-input-container adf-comments-divider">
+      <mat-form-field class="adf-comments-input-form-field" appearance="fill">
+        <mat-label>{{ 'COMMENTS.ADD' | translate }}</mat-label>
+        <textarea
+          matInput
+          id="comment-input"
+          class="adf-text-text-area"
+          [attr.aria-label]="('COMMENTS.ADD' | translate) + '*'"
+          [formControl]="commentControl"
+        >
+        </textarea>
+      </mat-form-field>
+
+      <!-- Selected File Attachment Preview -->
+      <div *ngIf="selectedFile" class="comment-attachment-preview">
+        <mat-icon class="attachment-icon">insert_drive_file</mat-icon>
+        <span class="attachment-name" [title]="selectedFile.name">{{ selectedFile.name }}</span>
+        <button mat-icon-button class="remove-attachment" (click)="removeSelectedFile()" type="button" title="Remove attachment">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="adf-comments-input-actions">
+        <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none">
+        <button mat-icon-button class="attach-file-btn" (click)="fileInput.click()" type="button" title="Attach file (stored as cm:content)">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          data-automation-id="comments-input-add"
+          (click)="addComment()"
+          [disabled]="!canAddComment()"
+        >
+          {{ 'COMMENTS.ADD' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Comments List (Scrollable Viewport) -->
+    <div class="adf-comment-list-viewport">
+      <div *ngIf="comments?.length > 0; else noComments" class="adf-comment-list">
+        <app-comment-detail 
+          *ngFor="let comment of comments" 
+          [comment]="comment" 
+          [nodeId]="node.id"
+          [parentFolderId]="node.parentId"
+          (commentUpdated)="loadComments()"
+          (commentDeleted)="loadComments()"
+        >
+        </app-comment-detail>
+      </div>
+    </div>
+
+    <ng-template #noComments>
+      <div *ngIf="isLoading" class="comments-loading">
+        <span class="loading-text">Loading comments...</span>
+      </div>
+    </ng-template>
+  </div>
+</div>
