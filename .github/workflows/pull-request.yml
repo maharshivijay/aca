@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -60,7 +60,7 @@ jobs:
       only-e2e-changes: ${{ steps.check.outputs.only-e2e-changes }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -103,7 +103,7 @@ jobs:
 
       - name: dist cache
         if: ${{ success() }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/before-install
@@ -191,10 +191,10 @@ jobs:
             id: 20
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@f95467b62527ce087c9a1b7e55c467061cf827a0 # v17.6.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@6d82a126f5f8b2cbfe2663c2c6c4fa3dbd5bdc7e # v18.15.0
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -210,7 +210,7 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@f95467b62527ce087c9a1b7e55c467061cf827a0 # v17.6.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@6d82a126f5f8b2cbfe2663c2c6c4fa3dbd5bdc7e # v18.15.0
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
@@ -222,7 +222,7 @@ jobs:
         run: npm ci
 
       - name: Restore dist cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         id: cache
         with:
           path: ./dist/content-ce
@@ -279,12 +279,12 @@ jobs:
         run: echo "E2E tests were skipped due to ci:skip-e2e label"
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@f95467b62527ce087c9a1b7e55c467061cf827a0 #v17.6.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@6d82a126f5f8b2cbfe2663c2c6c4fa3dbd5bdc7e #v18.15.0
 
       - name: Check ADF link
         shell: bash
