@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, HostListener, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, PRIMARY_OUTLET, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { debounceTime, map } from 'rxjs/operators';
@@ -49,7 +49,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-preview' }
+  host: { 
+    class: 'app-preview',
+    '[class.aca-preview-embedded]': '!overlayMode'
+  }
 })
 export class PreviewComponent extends PageComponent implements OnInit {
   private readonly actions$ = inject(Actions);
@@ -59,6 +62,10 @@ export class PreviewComponent extends PageComponent implements OnInit {
   private readonly nodesApiService = inject(NodesApiService);
   private readonly route = inject(ActivatedRoute);
   private readonly viewerService = inject(ViewerService);
+
+  // @Input overrides — set these when embedding PreviewComponent as a child (non-routed)
+  @Input() inputNodeId: string = null;
+  @Input() inputOverlayMode: boolean = undefined;
 
   folderId: string = null;
   navigateBackAsClose = false;
@@ -73,6 +80,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
   routesSkipNavigation = ['favorites', 'recent-files', 'shared'];
   showRightSide = false;
   simplestMode = false;
+  overlayMode = true;
 
   private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
@@ -90,6 +98,12 @@ export class PreviewComponent extends PageComponent implements OnInit {
     const routeData = this.route.snapshot.data;
     this.navigateBackAsClose = !!routeData.navigateBackAsClose;
     this.simplestMode = !!routeData.simplestMode;
+    // @Input() inputOverlayMode takes priority over route data when explicitly provided
+    if (this.inputOverlayMode !== undefined) {
+      this.overlayMode = this.inputOverlayMode;
+    } else {
+      this.overlayMode = routeData.overlayMode !== undefined ? !!routeData.overlayMode : true;
+    }
 
     if (routeData.navigateMultiple) {
       this.navigateMultiple = true;
@@ -104,11 +118,17 @@ export class PreviewComponent extends PageComponent implements OnInit {
 
     this.route.params.subscribe((params) => {
       this.folderId = params.folderId;
-      const id = params.nodeId;
+      const id = params.nodeId || this.inputNodeId;
       if (id) {
         void this.displayNode(id);
       }
     });
+
+    // When embedded as a child component, route.params may never emit the nodeId.
+    // In that case, load the node directly from the @Input() if provided.
+    if (this.inputNodeId && !this.route.snapshot.params['nodeId']) {
+      void this.displayNode(this.inputNodeId);
+    }
 
     this.subscriptions = this.subscriptions.concat([
       this.appHookService.nodesDeleted.subscribe(() => this.navigateToFileLocation(true)),

@@ -1,0 +1,12 @@
+.dialog-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 320px;
+  padding: 8px 0;
+
+  .current-owner-info {
+    font-size: 14px;
+    margin: 0;
+  }
+}

@@ -1,0 +1,22 @@
+<div class="app-user-selection-container">
+  <mat-form-field appearance="outline" class="user-search-field">
+    <mat-label>{{ 'APP.OWNER.SEARCH_USER' | translate }}</mat-label>
+    <input
+      type="text"
+      placeholder="{{ 'APP.OWNER.SEARCH_USER_PLACEHOLDER' | translate }}"
+      matInput
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUser" (optionSelected)="onOptionSelected($event)">
+      <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
+        <div class="user-option-container">
+          <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+          <span class="user-id">({{ user.id }})</span>
+          <span class="user-email" *ngIf="user.email"> - {{ user.email }}</span>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

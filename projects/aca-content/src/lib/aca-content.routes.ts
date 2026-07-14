@@ -33,6 +33,7 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { DetailsComponent } from './components/details/details.component';
+import { DocumentDetailsComponent } from './components/document-details/document-details.component';
 import { HomeComponent } from './components/home/home.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { ViewProfileRuleGuard } from './components/view-profile/view-profile.guard';
@@ -117,6 +118,15 @@ export const CONTENT_LAYOUT_ROUTES: Route[] = [
         path: 'profile',
         canActivate: [ViewProfileRuleGuard],
         component: ViewProfileComponent
+      },
+      {
+        path: 'document-details/:nodeId',
+        component: DocumentDetailsComponent,
+        data: {
+          title: 'Document Details',
+          navigateBackAsClose: true,
+          overlayMode: false
+        }
       },
       {
         path: '',

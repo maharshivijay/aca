@@ -1234,7 +1234,53 @@ describe('app.evaluators', () => {
       expect(app.isSSOEnabled(context)).toBe(false);
     });
   });
+
+  describe('canChangeOwner', () => {
+    it('should return false when there is no selection', () => {
+      context.selection.isEmpty = true;
+      expect(app.canChangeOwner(context)).toBeFalse();
+    });
+
+    it('should return false when selected count is greater than 1', () => {
+      context.selection.isEmpty = false;
+      context.selection.count = 2;
+      expect(app.canChangeOwner(context)).toBeFalse();
+    });
+
+    it('should return true when user is admin', () => {
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.profile = { isAdmin: true } as any;
+      context.selection.first = { entry: { properties: {} } } as any;
+      expect(app.canChangeOwner(context)).toBeTrue();
+    });
+
+    it('should return true when user is owner in cm:owner property', () => {
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.profile = { id: 'testUser', isAdmin: false } as any;
+      context.selection.first = { entry: { properties: { 'cm:owner': 'testUser' } } } as any;
+      expect(app.canChangeOwner(context)).toBeTrue();
+    });
+
+    it('should return true when user is owner matching createdByUser and cm:owner is not set', () => {
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.profile = { id: 'testUser', isAdmin: false } as any;
+      context.selection.first = { entry: { createdByUser: { id: 'testUser' }, properties: {} } } as any;
+      expect(app.canChangeOwner(context)).toBeTrue();
+    });
+
+    it('should return false when user is not owner and not admin', () => {
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.profile = { id: 'otherUser', isAdmin: false } as any;
+      context.selection.first = { entry: { createdByUser: { id: 'testUser' }, properties: { 'cm:owner': 'testUser' } } } as any;
+      expect(app.canChangeOwner(context)).toBeFalse();
+    });
+  });
 });
+
 
 describe('Versions compatibility', () => {
   function makeContext(versionDisplay?: string): RuleContext {

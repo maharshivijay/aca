@@ -7550,3 +7550,84 @@ Failed tasks:
 
 Hint: run the command with --verbose for more details.
 
+
+> alfresco-content-app@7.5.0 start
+> nx serve content-ce --host 0.0.0.0 --port 4201
+
+
+> nx run content-ce:serve --host 0.0.0.0 --port 4201
+
+[1m[33mWarning: Running a server with --disable-host-check is a security risk. See https://medium.com/webpack/webpack-dev-server-middleware-security-issues-1489d950874a for more information.[39m[22m
+[1m[33mOne or more browsers which are configured in the project's Browserslist configuration will be ignored as ES5 output is not supported by the Angular CLI.
+Ignored browsers: kaios 2.5, op_mini all[39m[22m
+Using backend URL: https://edms.ipr.res.in/
+- Generating browser application bundles (phase: setup)...
+[1m[33m    TypeScript compiler options "target" and "useDefineForClassFields" are set to "ES2022" and "false" respectively by the Angular CLI. To control ECMA version and features use the Browserslist configuration. For more information, see https://angular.dev/tools/cli/build#configuring-browser-compatibility
+    NOTE: You can set the "target" to "ES2022" in the project's tsconfig to remove this warning.[39m[22m
+[32m✔[39m Browser application bundle generation complete.
+[37m[0m[0m
+[0m[1mInitial chunk files[22m  [2m | [22m[1mNames[22m        [2m | [22m [1mRaw size[22m[0m
+[0m[32mvendor.js[37m            [2m | [22m[2mvendor[22m       [2m | [22m [36m19.29 MB[37m[2m | [22m[0m
+[0m[32mscripts.js[37m           [2m | [22m[2mscripts[22m      [2m | [22m  [36m3.50 MB[37m[2m | [22m[0m
+[0m[32mmain.js[37m              [2m | [22m[2mmain[22m         [2m | [22m  [36m2.51 MB[37m[2m | [22m[0m
+[0m[32mstyles.css, styles.js[37m[2m | [22m[2mstyles[22m       [2m | [22m[36m428.50 kB[37m[2m | [22m[0m
+[0m[32mpolyfills.js[37m         [2m | [22m[2mpolyfills[22m    [2m | [22m[36m243.25 kB[37m[2m | [22m[0m
+[0m[32mruntime.js[37m           [2m | [22m[2mruntime[22m      [2m | [22m  [36m6.94 kB[37m[2m | [22m[0m
+[0m[0m
+[0m[1m [22m                    [2m | [22m[1mInitial total[22m[2m | [22m [1m25.98 MB[22m[0m
+[0m[0m
+[0mBuild at: [1m[37m2026-07-13T17:04:33.014Z[37m[22m - Hash: [1m[37m799d817e9abd718a[37m[22m - Time: [1m[37m28128[37m[22mms[0m[39m
+[1m[33m
+[0m[36m./projects/aca-content/src/lib/components/search/search-libraries-results/search-libraries-results.component.scss?ngResource[33m[0m - [0m[33mWarning: [33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):
+Deprecation Warning on line 0, column 8 of file:///home/vkpatel/aca/alfresco-content-app/projects/aca-content/src/lib/components/search/search-libraries-results/search-libraries-results.component.scss:0:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/import
+0 | @import '../../../ui/mixins';
+projects/aca-content/src/lib/components/search/search-libraries-results/search-libraries-results.component.scss 1:9  root stylesheet
+[0m[36m./projects/aca-content/src/lib/components/search/search-results/search-results.component.scss?ngResource[33m[0m - [0m[33mWarning: [33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):
+Deprecation Warning on line 0, column 8 of file:///home/vkpatel/aca/alfresco-content-app/projects/aca-content/src/lib/components/search/search-results/search-results.component.scss:0:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/import
+0 | @import '../../../ui/mixins';
+projects/aca-content/src/lib/components/search/search-results/search-results.component.scss 1:9  root stylesheet
+[0m[36m./projects/aca-shared/src/lib/components/page-layout/page-layout.component.scss?ngResource[33m[0m - [0m[33mWarning: [33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):
+Deprecation Warning on line 0, column 8 of file:///home/vkpatel/aca/alfresco-content-app/projects/aca-shared/src/lib/components/page-layout/page-layout.component.scss:0:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/import
+0 | @import '../../styles/mixins';
+proje[39m[22m[1m[33mcts/aca-shared/src/lib/components/page-layout/page-layout.component.scss 1:9  root stylesheet
+[0m[36m./node_modules/pdfjs-dist/build/pdf.min.mjs[33m[0m:[0m[93m10603:20-45[33m[0m - [0m[33mWarning: [33m[0mCritical dependency: the request of a dependency is an expression
+[0m[33mWarning: [33m[0m/home/vkpatel/aca/alfresco-content-app/node_modules/@alfresco/js-api/esm2015/src/superagentHttpClient.js depends on 'superagent'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.dev/tools/cli/build#configuring-commonjs-dependencies
+[39m[22m
+[37m
+** Angular Live Development Server is listening on 0.0.0.0:4201, open your browser on http://localhost:4201/ **
+[39m
+[37m
+[92m✔[37m Compiled successfully.[39m
+[32m✔[39m Browser application bundle generation complete.
+[37m[0m[0m
+[0m[1mInitial chunk files[22m[2m | [22m[1mNames[22m  [2m | [22m[1mRaw size[22m[0m
+[0m[32mruntime.js[37m         [2m | [22m[2mruntime[22m[2m | [22m [36m6.94 kB[37m[2m | [22m[0m
+[0m[0m
+[0m5 unchanged chunks[0m
+[0m[0m
+[0mBuild at: [1m[37m2026-07-13T17:04:44.420Z[37m[22m - Hash: [1m[37m44be82ff644c2a3b[37m[22m - Time: [1m[37m9695[37m[22mms[0m[39m
+[37m
+[92m✔[37m Compiled successfully.[39m
+[1m[33m
+[0m[36m./node_modules/pdfjs-dist/build/pdf.min.mjs[33m[0m:[0m[93m10603:20-45[33m[0m - [0m[33mWarning: [33m[0mCritical dependency: the request of a dependency is an expression
+[39m[22m
+(node:4055925) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+
+
+ NX   Running target serve for project content-ce failed
+
+Failed tasks:
+
+- content-ce:serve
+
+Hint: run the command with --verbose for more details.
+

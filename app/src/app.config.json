@@ -1,10 +1,10 @@
 {
   "$schema": "../../node_modules/@alfresco/adf-core/app.config.schema.json",
-  "ecmHost": "{protocol}//{hostname}{:port}",
-  "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
+  "ecmHost": "https://edms.ipr.res.in/alfresco",
+  "aosHost": "https://edms.ipr.res.in/alfresco/aos",
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
   "providers": "ECM",
-  "authType": "BASIC",
+  "authType": "OAUTH",
   "loginRoute": "login",
   "mobileAppSwitch": {
     "enabled": true
@@ -18,16 +18,16 @@
     "knowledgeRetrievalEnabled": false
   },
   "oauth2": {
-    "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",
-    "clientId": "alfresco",
+    "host": "https://keycloak.ipr.res.in/realms/IPR",
+    "clientId": "edms",
     "scope": "openid",
     "implicitFlow": false,
     "codeFlow": true,
-    "silentLogin": true,
+    "silentLogin": false,
     "publicUrls": ["**/preview/s/*", "**/settings"],
-    "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
+    "redirectSilentIframeUri": "https://keycloak.ipr.res.in/assets/silent-refresh.html",
     "redirectUri": "/",
-    "redirectUriLogout": "/",
+    "redirectUriLogout": "/logout",
     "skipIssuerCheck": true,
     "strictDiscoveryDocumentValidation": false
   },

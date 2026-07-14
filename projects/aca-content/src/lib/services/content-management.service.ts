@@ -49,15 +49,16 @@ import {
   ShareDialogComponent
 } from '@alfresco/adf-content-services';
 import { ConfirmDialogComponent, DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
-import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
+import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry, Person } from '@alfresco/js-api';
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { forkJoin, Observable, of, zip } from 'rxjs';
+import { forkJoin, Observable, of, zip, from } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NodeInformationComponent } from '../dialogs/node-details/node-information.component';
+import { ChangeOwnerDialogComponent } from '../dialogs/change-owner/change-owner.dialog';
 
 interface RestoredNode {
   status: number;
@@ -170,6 +171,49 @@ export class ContentManagementService {
         this.openAspectListDialog(node.entry, focusedElementOnCloseSelector);
       }
     }
+  }
+
+  changeOwner(node: any, _focusedElementOnCloseSelector?: string) {
+    if (node?.entry) {
+      const id = node.entry.nodeId || (node as any).entry.guid || node.entry.id;
+
+      if (id) {
+        this.contentApi.getNodeInfo(id).subscribe((entry) => {
+          this.openChangeOwnerDialog(entry);
+        });
+      } else {
+        this.openChangeOwnerDialog(node.entry);
+      }
+    }
+  }
+
+  private openChangeOwnerDialog(node: Node) {
+    const dialogConfig: MatDialogConfig = {
+      width: '400px',
+      data: { node: { entry: node } }
+    };
+
+    const dialogInstance = this.dialogRef.open(ChangeOwnerDialogComponent, dialogConfig);
+
+    dialogInstance.afterClosed().subscribe((selectedUser: Person) => {
+      if (selectedUser) {
+        const updateBody = {
+          properties: {
+            'cm:owner': selectedUser.id
+          }
+        };
+
+        from(this.contentApi.nodesApi.updateNode(node.id, updateBody)).subscribe(
+          (updatedNode: NodeEntry) => {
+            this.nodesApiService.nodeUpdated.next(updatedNode.entry);
+            this.notificationService.showInfo('APP.MESSAGES.INFO.CHANGE_OWNER_SUCCESS');
+          },
+          () => {
+            this.notificationService.showError('APP.MESSAGES.ERRORS.CHANGE_OWNER_FAILED');
+          }
+        );
+      }
+    });
   }
 
   versionUpdateDialog(node: Node, file: File) {

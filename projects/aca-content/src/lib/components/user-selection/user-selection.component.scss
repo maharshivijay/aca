@@ -1,0 +1,23 @@
+.app-user-selection-container {
+  width: 100%;
+
+  .user-search-field {
+    width: 100%;
+  }
+}
+
+.user-option-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+
+  .user-name {
+    font-weight: 500;
+  }
+
+  .user-id, .user-email {
+    color: var(--theme-text-secondary-color, #757575);
+    font-size: 0.9em;
+  }
+}

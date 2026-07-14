@@ -297,6 +297,7 @@
             }
         },
         "ACTIONS": {
+            "CANCEL": "Cancel",
             "VIEW": "View",
             "EDIT": "Edit",
             "DOWNLOAD": "Download",
@@ -328,7 +329,8 @@
             "CHANGE_ASPECT": "Edit Aspects",
             "ADD_ASPECTS": "Add Aspects",
             "NODE_INFO": "Information",
-            "ENGINEERING_APPROVE": "Engineering Approve"
+            "ENGINEERING_APPROVE": "Engineering Approve",
+            "CHANGE_OWNER": "Change Owner"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -396,7 +398,8 @@
                 },
                 "DELETE_LIBRARY_FAILED": "Cannot delete the library",
                 "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
-                "ENGINEERING_APPROVAL_FAILED": "Failed to approve document"
+                "ENGINEERING_APPROVAL_FAILED": "Failed to approve document",
+                "CHANGE_OWNER_FAILED": "Failed to change owner"
             },
             "UPLOAD": {
                 "ERROR": {
@@ -455,7 +458,8 @@
                 "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
                 "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
                 "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite",
-                "ENGINEERING_APPROVAL_SUCCESS": "Document approved successfully"
+                "ENGINEERING_APPROVAL_SUCCESS": "Document approved successfully",
+                "CHANGE_OWNER_SUCCESS": "Owner changed successfully"
             }
         },
         "CONTENT_METADATA": {
@@ -516,6 +520,15 @@
             "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
             "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
             "CLOSE": "Close"
+        },
+        "OWNER": {
+            "CHANGE_OWNER_TITLE": "Change Owner",
+            "CURRENT_OWNER": "Current Owner",
+            "SEARCH_USER": "Search User",
+            "SEARCH_USER_PLACEHOLDER": "Search by name or username",
+            "CHANGE_ACTION": "Change",
+            "CHANGE_SUCCESS": "Owner changed successfully",
+            "CHANGE_FAILED": "Failed to change owner"
         }
     },
     "NODE_SELECTOR": {

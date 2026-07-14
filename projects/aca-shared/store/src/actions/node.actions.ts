@@ -51,6 +51,8 @@ export enum NodeActionTypes {
   ExpandInfoDrawer = 'EXPAND_INFO_DRAWER',
   ManageRules = 'MANAGE_RULES',
   EngineeringApprove = 'ENGINEERING_APPROVE',
+  ViewDocumentDetails = 'VIEW_DOCUMENT_DETAILS',
+  ChangeOwner = 'CHANGE_OWNER',
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -228,6 +230,18 @@ export class NodeInformationAction implements Action {
 
 export class EngineeringApproveAction implements Action {
   readonly type = NodeActionTypes.EngineeringApprove;
+
+  constructor(public payload?: NodeEntry, public configuration?: any) {}
+}
+
+export class ViewDocumentDetailsAction implements Action {
+  readonly type = NodeActionTypes.ViewDocumentDetails;
+
+  constructor(public payload?: NodeEntry) {}
+}
+
+export class ChangeOwnerAction implements Action {
+  readonly type = NodeActionTypes.ChangeOwner;
 
   constructor(public payload?: NodeEntry, public configuration?: any) {}
 }

@@ -12,7 +12,7 @@
     [allowFullScreen]="false"
     [canNavigateBefore]="!!previousNodeId"
     [canNavigateNext]="!!nextNodeId"
-    [overlayMode]="true"
+    [overlayMode]="overlayMode"
     (showViewerChange)="onVisibilityChanged($event)"
     (navigateBefore)="onNavigateBefore($event)"
     (navigateNext)="onNavigateNext($event)"

@@ -263,6 +263,19 @@ export function canUpdateSelectedNode(context: RuleContext): boolean {
   return false;
 }
 
+/**
+ * Checks if user can read the first selected node.
+ * JSON ref: `app.selection.first.canRead`
+ */
+export function canReadSelectedNode(context: RuleContext): boolean {
+  if (context.selection && hasSelection(context)) {
+    const node = context.selection.first;
+    return context.permissions.check(node, ['read']);
+  }
+  return false;
+}
+
+
 export function isMultiselection(context: RuleContext): boolean {
   let isMultiNodeSelected = false;
   if (context.selection && hasSelection(context)) {
@@ -577,3 +590,43 @@ export const isCheckedOut = (context: RuleContext): boolean => {
   }
   return false;
 };
+
+/**
+ * Checks if user is owner of the selected node or is admin.
+ * JSON ref: `app.selection.canChangeOwner`
+ *
+ * @param context Rule execution context
+ */
+export const canChangeOwner = (context: RuleContext): boolean => {
+  if (context.selection && !context.selection.isEmpty) {
+    if (context.selection.count > 1) {
+      return false;
+    }
+    const node = context.selection.first;
+    if (!node || !node.entry) {
+      return false;
+    }
+
+    if (context.profile?.isAdmin) {
+      return true;
+    }
+
+    const currentUserId = context.profile?.id;
+    if (!currentUserId) {
+      return false;
+    }
+
+    const owner = node.entry.properties?.['cm:owner'];
+    const creator = node.entry.createdByUser?.id;
+
+    const ownerId = typeof owner === 'object' && owner ? owner.id || owner.username : owner;
+
+    if (ownerId) {
+      return ownerId === currentUserId;
+    }
+
+    return creator === currentUserId;
+  }
+  return false;
+};
+

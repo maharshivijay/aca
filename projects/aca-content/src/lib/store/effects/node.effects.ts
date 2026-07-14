@@ -53,7 +53,9 @@ import {
   UnlockWriteAction,
   UnshareNodesAction,
   NodeInformationAction,
-  EngineeringApproveAction
+  EngineeringApproveAction,
+  ViewDocumentDetailsAction,
+  ChangeOwnerAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { EngineeringApprovalService } from '../../services/engineering-approval.service';
@@ -284,6 +286,28 @@ export class NodeEffects {
     { dispatch: false }
   );
 
+  viewDocumentDetails$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ViewDocumentDetailsAction>(NodeActionTypes.ViewDocumentDetails),
+        map((action) => {
+          if (action?.payload) {
+            this.store.dispatch(new NavigateUrlAction(['document-details', action.payload.entry.id].join('/')));
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && !selection.isEmpty) {
+                  this.store.dispatch(new NavigateUrlAction(['document-details', selection.last.entry.id].join('/')));
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
   managePermissions$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -502,6 +526,29 @@ export class NodeEffects {
                 const node = selection?.file || (selection?.nodes?.length ? selection.nodes[0] : null);
                 if (node?.entry?.id) {
                   this.approvalService.approve(node.entry.id).subscribe(() => {});
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  changeOwner$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ChangeOwnerAction>(NodeActionTypes.ChangeOwner),
+        map((action) => {
+          if (action.payload) {
+            this.contentService.changeOwner(action.payload, action.configuration?.focusedElementOnCloseSelector);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                const node = selection?.file || (selection?.nodes?.length ? selection.nodes[0] : null);
+                if (node) {
+                  this.contentService.changeOwner(node, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }

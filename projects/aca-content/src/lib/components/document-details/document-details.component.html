@@ -1,0 +1,162 @@
+<aca-page-layout *ngIf="node; else loading">
+  <div class="aca-page-layout-header">
+    <div class="aca-document-details-header">
+      <button mat-icon-button (click)="goBack()" class="back-button" title="Go Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <div class="header-title-container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumb-nav">
+          <span class="root-breadcrumb" (click)="navigateToParent()">Documents</span>
+          <mat-icon class="separator-icon">chevron_right</mat-icon>
+          <span class="current-document">{{ node.name }}</span>
+        </div>
+        
+        <!-- Document Name and Version -->
+        <div class="document-title-row">
+          <mat-icon class="doc-icon">insert_drive_file</mat-icon>
+          <h1 class="document-name">{{ node.name }}</h1>
+          <span class="version-badge" *ngIf="node.properties && node.properties['cm:versionLabel']">
+            {{ node.properties['cm:versionLabel'] }}
+          </span>
+        </div>
+        
+        <!-- Metadata Info, Like & Star actions -->
+        <div class="document-meta-row">
+          <span>Modified by <strong>{{ node.modifiedByUser?.displayName || node.modifiedByUser?.id }}</strong> on {{ node.modifiedAt | date:'medium' }}</span>
+          <span class="meta-separator">|</span>
+          
+          <button mat-button class="rating-button" (click)="toggleLike()">
+            <mat-icon [color]="isLiked ? 'accent' : 'default'">thumb_up</mat-icon>
+            <span class="count">{{ likeCount }}</span>
+          </button>
+          
+          <span class="meta-separator">|</span>
+          
+          <button mat-icon-button class="favorite-button" (click)="toggleFavorite()" title="Toggle Favorite">
+            <mat-icon [color]="isFavorite ? 'warn' : 'default'">{{ isFavorite ? 'star' : 'star_border' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button mat-raised-button color="primary" (click)="download()" title="Download file">
+          <mat-icon>get_app</mat-icon>
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="aca-page-layout-content document-details-layout">
+    <!-- Left Column (70% width): Preview & Comments -->
+    <div class="details-left-panel">
+      <!-- File Previewer Card -->
+      <div class="previewer-card">
+        <app-preview [inputNodeId]="nodeId" [inputOverlayMode]="false"></app-preview>
+      </div>
+
+      <!-- Comments Card -->
+      <div class="comments-card">
+        <h2 class="section-title">Comments</h2>
+        <app-comments-tab [node]="node"></app-comments-tab>
+      </div>
+    </div>
+
+    <!-- Right Column (30% width): Sidebar Widgets -->
+    <div class="details-right-panel">
+      
+      <!-- Document Actions -->
+      <div class="widget-card">
+        <h3 class="widget-title">▼ Document Actions</h3>
+        <div class="widget-content actions-list">
+          <button mat-button class="action-item-btn" (click)="viewInBrowser()">
+            <mat-icon>open_in_new</mat-icon> View In Browser
+          </button>
+          
+          <button mat-button class="action-item-btn" (click)="editOffline()">
+            <mat-icon>edit</mat-icon> Edit Offline
+          </button>
+          
+          <button mat-button class="action-item-btn" (click)="triggerUploadVersion()">
+            <mat-icon>cloud_upload</mat-icon> Upload New Version
+          </button>
+          <input type="file" #versionUploadInput style="display: none" (change)="onUploadVersion($event)">
+          
+          <button mat-button class="action-item-btn" (click)="editProperties()">
+            <mat-icon>edit_note</mat-icon> Edit Properties
+          </button>
+          
+          <button mat-button class="action-item-btn" (click)="move()">
+            <mat-icon>drive_file_move</mat-icon> Move to...
+          </button>
+          
+          <button mat-button class="action-item-btn" (click)="copy()">
+            <mat-icon>content_copy</mat-icon> Copy to...
+          </button>
+          <button mat-button class="action-item-btn" (click)="changeOwner()">
+            <mat-icon>person</mat-icon> Change Owner
+          </button>
+          <button mat-button class="action-item-btn" (click)="delete()">
+            <mat-icon>delete</mat-icon> Delete Document
+          </button>
+          
+          <button mat-button class="action-item-btn" (click)="managePermissions()">
+            <mat-icon>supervisor_account</mat-icon> Manage Permissions
+          </button>
+          
+          <button mat-button class="action-item-btn" (click)="manageAspects()">
+            <mat-icon>rule</mat-icon> Manage Aspects
+          </button>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="widget-card">
+        <h3 class="widget-title">▼ Tags</h3>
+        <div class="widget-content tags-widget-content">
+          <adf-tag-node-list [nodeId]="node.id" [showDelete]="false"></adf-tag-node-list>
+        </div>
+      </div>
+
+      <!-- Share Link -->
+      <div class="widget-card">
+        <h3 class="widget-title">▼ Share</h3>
+        <div class="widget-content share-widget">
+          <label class="share-label">Copy this link to share the current page</label>
+          <div class="share-input-row">
+            <input type="text" readonly [value]="shareUrl" class="share-input-field" #shareInput>
+            <button mat-icon-button (click)="copyShareLink(shareInput)" title="Copy Link">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Properties / Metadata -->
+      <div class="widget-card">
+        <h3 class="widget-title">▼ Properties</h3>
+        <div class="widget-content properties-widget">
+          <app-metadata-tab [node]="node"></app-metadata-tab>
+        </div>
+      </div>
+
+      <!-- Version History -->
+      <div class="widget-card">
+        <h3 class="widget-title">▼ Version History</h3>
+        <div class="widget-content version-widget">
+          <app-versions-tab [node]="node"></app-versions-tab>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</aca-page-layout>
+
+<ng-template #loading>
+  <div class="details-loading-container">
+    <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+    <span class="loading-label">Loading Document Details...</span>
+  </div>
+</ng-template>

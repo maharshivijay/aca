@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ 'APP.OWNER.CHANGE_OWNER_TITLE' | translate }}</h2>
+<mat-dialog-content>
+  <div class="dialog-content-container">
+    <p class="current-owner-info">
+      <strong>{{ 'APP.OWNER.CURRENT_OWNER' | translate }}:</strong> {{ currentOwnerName }}
+    </p>
+
+    <app-user-selection (userSelected)="onUserSelected($event)"></app-user-selection>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{ 'APP.ACTIONS.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" [disabled]="!selectedUser" (click)="onSubmit()">
+    {{ 'APP.OWNER.CHANGE_ACTION' | translate }}
+  </button>
+</mat-dialog-actions>

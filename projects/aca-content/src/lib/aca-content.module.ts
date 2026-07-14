@@ -145,6 +145,8 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.selection.canAddFavorite': rules.canAddFavorite,
         'app.selection.canRemoveFavorite': rules.canRemoveFavorite,
         'app.selection.first.canUpdate': rules.canUpdateSelectedNode,
+        'app.selection.first.canRead': rules.canReadSelectedNode,
+        'app.selection.canChangeOwner': rules.canChangeOwner,
         'app.selection.file': rules.hasFileSelected,
         'app.selection.file.isLocked': rules.hasLockedFiles,
         'app.selection.file.canUploadVersion': rules.canUploadVersion,

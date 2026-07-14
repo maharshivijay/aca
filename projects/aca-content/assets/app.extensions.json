@@ -901,6 +901,21 @@
         }
       },
       {
+        "id": "app.context.menu.document.details",
+        "title": "APP.ACTIONS.DETAILS",
+        "icon": "info",
+        "order": 310,
+        "actions": {
+          "click": "VIEW_DOCUMENT_DETAILS"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.file",
+            "!app.navigation.isTrashcan"
+          ]
+        }
+      },
+      {
         "id": "app.create.separator.1",
         "type": "separator",
         "order": 400
@@ -1053,6 +1068,23 @@
             "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "!app.navigation.isLibraries"
+          ]
+        }
+      },
+      {
+        "id": "app.context.menu.change-owner",
+        "title": "APP.ACTIONS.CHANGE_OWNER",
+        "order": 1150,
+        "icon": "person",
+        "actions": {
+          "click": "CHANGE_OWNER"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.notEmpty",
+            "!isMultiSelection",
+            "!app.navigation.isTrashcan",
+            "app.selection.canChangeOwner"
           ]
         }
       },
@@ -2284,8 +2316,7 @@
               "iptcxmp:iptcxmpAspect",
               "cm:effectivity",
               "cm:likesRatingSchemeRollups",
-              "cm:lockable",
-              "cm:ownable"
+              "cm:lockable"
             ]
           },
           {
